@@ -7,12 +7,12 @@
 
 <style>
     :root {
-        --bg-color: #030d1a;
+        --bg-color: #020916;
         --neon-blue: #00f0ff;
-        --deep-blue: #0044ff;
-        --sonar-glow: rgba(0, 240, 255, 0.4);
-        --panel-bg: rgba(6, 20, 42, 0.75);
-        --panel-border: rgba(0, 240, 255, 0.3);
+        --deep-blue: #0055ff;
+        --sonar-glow: rgba(0, 240, 255, 0.5);
+        --glass-bg: rgba(6, 22, 48, 0.45);
+        --glass-border: rgba(0, 240, 255, 0.3);
         --text-color: #d0f4ff;
     }
 
@@ -31,8 +31,8 @@
         overflow-x: hidden;
     }
 
-    /* Background Water Wave Animated Layer */
-    .water-background {
+    /* Canvas de Ondas em Camadas (Fundo) */
+    #waveCanvas {
         position: fixed;
         top: 0;
         left: 0;
@@ -40,33 +40,9 @@
         height: 100vh;
         z-index: -1;
         pointer-events: none;
-        overflow: hidden;
-        background: radial-gradient(circle at 50% 50%, #002b4d 0%, #020b18 100%);
     }
 
-    .water-wave {
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        top: -50%;
-        left: -50%;
-        background: radial-gradient(ellipse at center, rgba(0, 180, 255, 0.15) 0%, rgba(0, 80, 180, 0.05) 45%, transparent 70%);
-        border-radius: 40%;
-        animation: waveRotate 18s linear infinite;
-    }
-
-    .water-wave:nth-child(2) {
-        border-radius: 35%;
-        background: radial-gradient(ellipse at center, rgba(0, 240, 255, 0.1) 0%, rgba(0, 120, 255, 0.03) 50%, transparent 75%);
-        animation: waveRotate 25s linear infinite reverse;
-    }
-
-    @keyframes waveRotate {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Futuristic UI Container */
+    /* Container Principal */
     .container {
         max-width: 1100px;
         margin: 0 auto;
@@ -74,13 +50,16 @@
         z-index: 1;
     }
 
+    /* Estilo Glassmorphism (Vidro) para o Cabeçalho */
     .header-panel {
-        background: var(--panel-bg);
-        border: 1px solid var(--panel-border);
-        padding: 20px 30px;
-        border-radius: 8px;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        padding: 22px 30px;
+        border-radius: 16px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 
+                    inset 0 0 15px rgba(0, 240, 255, 0.1);
         margin-bottom: 25px;
         position: relative;
         overflow: hidden;
@@ -91,7 +70,7 @@
         position: absolute;
         top: 0; left: 0; width: 4px; height: 100%;
         background: linear-gradient(180deg, var(--neon-blue), var(--deep-blue));
-        box-shadow: 0 0 10px var(--neon-blue);
+        box-shadow: 0 0 12px var(--neon-blue);
     }
 
     h2 {
@@ -103,7 +82,7 @@
         text-transform: uppercase;
     }
 
-    /* Search Input */
+    /* Campo de Busca em Glassmorphism */
     .search-wrapper {
         position: relative;
         margin-top: 15px;
@@ -112,32 +91,36 @@
     input {
         width: 100%;
         padding: 14px 20px;
-        background: rgba(3, 15, 30, 0.85);
-        border: 1px solid var(--panel-border);
-        border-radius: 4px;
+        background: rgba(3, 15, 35, 0.5);
+        border: 1px solid var(--glass-border);
+        border-radius: 8px;
         font-size: 16px;
         color: var(--neon-blue);
         outline: none;
+        backdrop-filter: blur(8px);
         transition: all 0.3s ease;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     }
 
     input::placeholder {
-        color: rgba(0, 240, 255, 0.4);
+        color: rgba(0, 240, 255, 0.5);
     }
 
     input:focus {
         border-color: var(--neon-blue);
-        box-shadow: 0 0 15px var(--sonar-glow), inset 0 0 15px rgba(0, 240, 255, 0.2);
-        background: rgba(3, 20, 45, 0.95);
+        box-shadow: 0 0 20px var(--sonar-glow), inset 0 0 10px rgba(0, 240, 255, 0.3);
+        background: rgba(3, 20, 50, 0.7);
     }
 
-    /* Table Container */
+    /* Tabela em Glassmorphism */
     .table-container {
-        border: 1px solid var(--panel-border);
-        border-radius: 8px;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 
+                    inset 0 0 20px rgba(0, 240, 255, 0.05);
         overflow: hidden;
     }
 
@@ -147,40 +130,40 @@
     }
 
     th {
-        background: linear-gradient(90deg, rgba(0, 240, 255, 0.25), rgba(0, 68, 255, 0.35));
+        background: linear-gradient(90deg, rgba(0, 240, 255, 0.25), rgba(0, 85, 255, 0.35));
         color: var(--neon-blue);
-        padding: 16px;
+        padding: 18px 16px;
         text-align: left;
         font-weight: 600;
         letter-spacing: 1.5px;
         text-transform: uppercase;
-        border-bottom: 2px solid var(--panel-border);
-        text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+        border-bottom: 2px solid var(--glass-border);
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
     }
 
     td {
-        padding: 14px 16px;
+        padding: 15px 16px;
         font-size: 15px;
-        transition: all 0.2s ease;
+        transition: all 0.25s ease;
     }
 
-    /* Linhas da Tabela com Cores Alternadas */
+    /* Cores Alternadas por Linha com Transparência de Vidro */
     tbody tr:nth-child(odd) {
-        background-color: rgba(6, 25, 50, 0.75);
+        background-color: rgba(4, 18, 40, 0.35);
     }
 
     tbody tr:nth-child(even) {
-        background-color: rgba(12, 40, 75, 0.75);
+        background-color: rgba(10, 38, 75, 0.45);
     }
 
     tbody tr:hover {
         background-color: rgba(0, 240, 255, 0.25) !important;
-        box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.3);
+        box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.4);
     }
 
     tbody tr:hover td {
         color: #ffffff;
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
     }
 
     td:first-child {
@@ -190,7 +173,7 @@
         font-size: 16px;
     }
 
-    /* Scrollbar Styling */
+    /* Scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
     }
@@ -209,6 +192,15 @@
         box-shadow: 0 0 10px var(--neon-blue);
     }
 </style>
+<canvas id="waveCanvas"></canvas>
+
+    <div class="container">
+        <div class="header-panel">
+            <h2>ARSENAL ORTHO AP1</h2>
+            <div class="search-wrapper">
+                <input type="text" placeholder="Rechercher dans l'arsenal...">
+            </div>
+        </div>
 </head>
 
 <body>
@@ -1388,32 +1380,72 @@
 </table>
 
 <script>
-function normalize(text) {
-    return text
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // enlève accents
-        .replace(/[^a-z0-9 ]/g, ""); // enlève caractères spéciaux
-}
+        const canvas = document.getElementById('waveCanvas');
+        const ctx = canvas.getContext('2d');
 
-document.getElementById("searchInput").addEventListener("keyup", function() {
-    let filter = normalize(this.value);
-    let rows = document.querySelectorAll("#productTable tbody tr");
-
-    rows.forEach(row => {
-        let text = normalize(row.textContent);
-
-        if (text.includes(filter)) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
-    });
-});
-</script>
-  <footer>
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let step = 0;
+
+        function renderGlassWaves() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Gradiente do Fundo Abissal
+            let bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            bgGrad.addColorStop(0, '#020916');
+            bgGrad.addColorStop(0.5, '#041630');
+            bgGrad.addColorStop(1, '#010610');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Configuração das 4 Ondas de Água sobrepostas
+            const waveConfigs = [
+                { opacity: 0.35, freq: 0.005, amp: 45, speed: 0.015, yPos: 0.3, color: '#00d4ff' },
+                { opacity: 0.25, freq: 0.008, amp: 65, speed: 0.025, yPos: 0.45, color: '#0088ff' },
+                { opacity: 0.20, freq: 0.004, amp: 80, speed: 0.010, yPos: 0.6, color: '#0033aa' },
+                { opacity: 0.30, freq: 0.006, amp: 55, speed: 0.020, yPos: 0.75, color: '#00f0ff' }
+            ];
+
+            waveConfigs.forEach(wave => {
+                ctx.beginPath();
+                
+                const waveGrad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                waveGrad.addColorStop(0, wave.color);
+                waveGrad.addColorStop(1, 'rgba(0,20,50,0)');
+
+                ctx.fillStyle = waveGrad;
+                ctx.globalAlpha = wave.opacity;
+
+                ctx.moveTo(0, canvas.height);
+
+                for (let x = 0; x <= canvas.width; x += 5) {
+                    const y = Math.sin(x * wave.freq + step * wave.speed) * wave.amp +
+                              Math.cos(x * 0.003 + step * 0.01) * (wave.amp * 0.5) +
+                              (canvas.height * wave.yPos);
+                    ctx.lineTo(x, y);
+                }
+
+                ctx.lineTo(canvas.width, canvas.height);
+                ctx.closePath();
+                ctx.fill();
+            });
+
+            ctx.globalAlpha = 1.0;
+            step++;
+            requestAnimationFrame(renderGlassWaves);
+        }
+
+        renderGlassWaves();
+    </script>
+    <footer>
         <h5>Site web créé par Marcelo Bittencourt</h5>
     </footer>
-
 </body>
 </html>
+  
