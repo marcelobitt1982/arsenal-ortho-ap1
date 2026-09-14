@@ -5,54 +5,255 @@
 <title>ARSENAL ORTHO AP1</title>
 
 <style>
+    :root {
+        --bg-color: #0b1d3a;
+        --grid-line: rgba(0, 180, 255, 0.12);
+        --neon-blue: #00d8ff;
+        --bright-blue: #3b82f6;
+        --panel-bg: rgba(13, 33, 64, 0.75);
+        --panel-border: rgba(0, 216, 255, 0.35);
+        --text-color: #e2f5ff;
+        --text-muted: #94a3b8;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
     body {
-        background-color: #000000;
-        font-family: Arial, sans-serif;
-        color: white;
-        padding: 20px;
+        background-color: var(--bg-color);
+        font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-color);
+        padding: 30px 20px;
+        margin: 0;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Background Animated Grid */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: 
+            linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+            linear-gradient(180deg, var(--grid-line) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: -2;
+        pointer-events: none;
+    }
+
+    /* Animated Horizontal Wave Background */
+    .wave-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.6;
+    }
+
+    .wave {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg, 
+            transparent 0%, 
+            rgba(0, 216, 255, 0.05) 30%, 
+            rgba(0, 216, 255, 0.25) 50%, 
+            rgba(0, 216, 255, 0.05) 70%, 
+            transparent 100%
+        );
+        animation: scanWave 7s ease-in-out infinite;
+    }
+
+    .wave-secondary {
+        animation-delay: 3.5s;
+        opacity: 0.5;
+    }
+
+    @keyframes scanWave {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(200%); }
+    }
+
+    /* Interface Layout */
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .header-panel {
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-border);
+        padding: 20px 30px;
+        border-radius: 8px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 30px rgba(0, 216, 255, 0.15);
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header-panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; width: 5px; height: 100%;
+        background: linear-gradient(180deg, var(--neon-blue), var(--bright-blue));
+        box-shadow: 0 0 12px var(--neon-blue);
+    }
+
+    .brand-title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+
+    .brand-logo {
+        height: 55px;
+        width: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+        background: rgba(255, 255, 255, 0.95);
+        padding: 6px 12px;
+        border-radius: 6px;
     }
 
     h2 {
-        margin-bottom: 10px;
-        color: #25bbdd ;
+        margin: 0;
+        color: #ffffff;
+        letter-spacing: 2px;
+        text-shadow: 0 0 12px var(--neon-blue);
+        font-size: 26px;
+        text-transform: uppercase;
     }
-    h5 {
-        margin-bottom: 10px;
-        color: #25bbdd;
+
+    /* Glowing Search Input */
+    .search-wrapper {
+        position: relative;
     }
 
     input {
-        width: 96%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: none;
-        border-radius: 5px;
+        width: 100%;
+        padding: 14px 20px;
+        background: rgba(8, 24, 48, 0.85);
+        border: 1px solid var(--panel-border);
+        border-radius: 6px;
         font-size: 16px;
+        color: var(--neon-blue);
+        outline: none;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+    }
 
+    input::placeholder {
+        color: rgba(148, 163, 184, 0.7);
+    }
+
+    input:focus {
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 20px rgba(0, 216, 255, 0.4), inset 0 0 12px rgba(0, 216, 255, 0.2);
+        background: rgba(12, 34, 68, 0.95);
+    }
+
+    /* Table Design */
+    .table-container {
+        background: var(--panel-bg);
+        border: 1px solid var(--panel-border);
+        border-radius: 8px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
-        background-color: #3a3a3ac8;
+        table-layout: fixed; /* Força as colunas a respeitarem as larguras em porcentagem */
     }
 
-    th, td {
-        border: 1px solid #555;
-        padding: 10px;
-        text-align: left;
+    th:nth-child(1), td:nth-child(1) {
+        width: 25%; /* Ajuste proporcional da 1ª coluna */
+    }
+
+    th:nth-child(2), td:nth-child(2) {
+        width: 50%; /* Ajuste proporcional da 2ª coluna */
+    }
+
+    th:nth-child(3), td:nth-child(3) {
+        width: 25%; /* Ajuste proporcional da 3ª coluna */
     }
 
     th {
-        background-color: #25bbdd;
+        background: linear-gradient(90deg, rgba(0, 216, 255, 0.25), rgba(59, 130, 246, 0.25));
+        color: #ffffff;
+        padding: 16px;
+        text-align: left;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border-bottom: 2px solid var(--panel-border);
+        text-shadow: 0 0 8px var(--neon-blue);
+    }
+
+    td {
+        border-bottom: 1px solid rgba(0, 216, 255, 0.12);
+        padding: 14px 16px;
+        font-size: 15px;
+        color: var(--text-color);
+        transition: all 0.2s ease;
+        word-wrap: break-word; /* Evita que o texto quebre o layout */
     }
 
     tr:nth-child(even) {
-        background-color: #444;
+        background-color: rgba(0, 216, 255, 0.04);
     }
 
     tr:hover {
-        background-color: #555;
+        background-color: rgba(0, 216, 255, 0.18);
+        box-shadow: inset 0 0 15px rgba(0, 216, 255, 0.3);
+    }
+
+    tr:hover td {
+        color: #ffffff;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    }
+
+    td:first-child {
+        color: var(--neon-blue);
+        font-weight: bold;
+        font-family: monospace;
+        font-size: 16px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--bg-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(0, 216, 255, 0.4);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--neon-blue);
+        box-shadow: 0 0 10px var(--neon-blue);
     }
 </style>
 </head>
