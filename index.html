@@ -5,53 +5,120 @@
 <title>ARSENAL ORTHO AP1</title>
 
 <style>
+    /* Configuração do fundo com animação de água */
     body {
-        background-color: #000000;
         font-family: Arial, sans-serif;
         color: white;
         padding: 20px;
+        min-height: 100vh;
+        margin: 0;
+        box-sizing: border-box;
+        
+        /* Gradiente animado simulando reflexos na água */
+        background: linear-gradient(
+            -45deg,
+            #020b14,
+            #051c2c,
+            #0a344a,
+            #031826,
+            #000000
+        );
+        background-size: 400% 400%;
+        animation: aguaEfeito 12s ease infinite;
+    }
+
+    /* Animação do movimento da água */
+    @keyframes aguaEfeito {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
 
     h2 {
         margin-bottom: 10px;
-        color: #25bbdd ;
+        color: #25bbdd;
+        text-shadow: 0 0 12px rgba(37, 187, 221, 0.4);
     }
+    
     h5 {
         margin-bottom: 10px;
         color: #25bbdd;
     }
 
+    /* Campo de busca translúcido */
     input {
         width: 96%;
         padding: 10px;
         margin-bottom: 15px;
-        border: none;
-        border-radius: 5px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
         font-size: 16px;
+        color: white;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        outline: none;
+        transition: all 0.3s ease;
     }
 
+    input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus {
+        border-color: #25bbdd;
+        box-shadow: 0 0 12px rgba(37, 187, 221, 0.5);
+    }
+
+    /* Tabela no estilo vidro (Glassmorphism) */
     table {
         width: 100%;
-        border-collapse: collapse;
-        background-color: #3a3a3ac8;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: rgba(10, 25, 40, 0.35); /* Leve toque azul no cinza translúcido */
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     }
 
     th, td {
-        border: 1px solid #555;
-        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 12px 10px;
         text-align: left;
     }
 
+    th:last-child, td:last-child {
+        border-right: none;
+    }
+
+    /* Cabeçalho translúcido em tom Ciano */
     th {
-        background-color: #25bbdd;
+        background-color: rgba(37, 187, 221, 0.75);
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
+    /* Alternância de linhas translúcidas */
     tr:nth-child(even) {
-        background-color: #444;
+        background-color: rgba(255, 255, 255, 0.03);
     }
 
+    /* Efeito ao passar o mouse nas linhas */
     tr:hover {
-        background-color: #555;
+        background-color: rgba(37, 187, 221, 0.2);
+        transition: background-color 0.2s ease;
     }
 </style>
 </head>
